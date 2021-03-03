@@ -16,6 +16,15 @@ from loguru import logger
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
+def setup_method(self):
+    logger.info('start')
+
+
+def teardown_method(self):
+    os.system('adb shell input keyevent 26')
+    logger.info('end')
+
+
 def sent_mail(file, subject, message):
     receiver = "pytest@139.com"
     yag = yagmail.SMTP("laolyu@foxmail.com", 'okpykwvdqeczhage', 'smtp.qq.com')
@@ -56,9 +65,8 @@ def test_devices():
 def test_reboot():
     logger.info('case----3')
     week = datetime.datetime.today().weekday() + 1
-    # 当前时间
-    now_localtime = time.strftime("%H:%M:%S", time.localtime())
-    if "18:00:00" < now_localtime and week == 3 or week == 5:
+    now_localtime = time.strftime("%H:%M:%S", time.localtime())  # 当前时间
+    if "10:00:00" > now_localtime and week == 1 or week == 3 or week == 5:
         logger.info('reboot')
         os.system('adb reboot')
     else:
@@ -68,13 +76,6 @@ def test_reboot():
 @pytest.mark.run(order=2)
 @myskip
 class TestDd:
-    def setup_method(self):
-        logger.debug('start')
-
-    def teardown_method(self):
-        os.system('adb shell input keyevent 26')
-        logger.debug('end')
-
     @pytest.fixture()
     def file(self):
         logger.info('222222222')
