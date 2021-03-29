@@ -21,13 +21,13 @@ def setup_method(self):
 
 
 def teardown_method(self):
-    os.system('adb shell input keyevent 26')
+    os.system('adb -s 022GPLDU39019379 shell input keyevent 26')
     logger.info('end')
 
 
 def sent_mail(file, subject, message):
     receiver = "pytest@139.com"
-    yag = yagmail.SMTP("laolyu@foxmail.com", 'okpykwvdqeczhage', 'smtp.qq.com')
+    yag = yagmail.SMTP("b4hand@qq.com", 'okpykwvdqeczhage', 'smtp.qq.com')
     yag.send(
         to=receiver,
         subject=subject,
@@ -38,7 +38,7 @@ def sent_mail(file, subject, message):
 
 
 def devices():
-    logger.info('8888888888888')
+    logger.info('00000000')
     result = os.popen('adb devices')
     context = result.read()
     if '022GPLDU39019379' in context:
@@ -66,7 +66,7 @@ def test_reboot():
     logger.info('case----3')
     week = datetime.datetime.today().weekday() + 1
     now_localtime = time.strftime("%H:%M:%S", time.localtime())  # 当前时间
-    if "10:00:00" > now_localtime and week == 1 or week == 3 or week == 5:
+    if "10:00:00" > now_localtime and (week == 1 or week == 3 or week == 5):
         logger.info('reboot')
         os.system('adb reboot')
     else:
@@ -79,30 +79,30 @@ class TestDd:
     @pytest.fixture()
     def file(self):
         logger.info('222222222')
-        sleeptime = random.randint(0, 300)
+        sleeptime = random.randint(0, 200)
         time.sleep(sleeptime)
         file = r'F:\screenshot\screenshot.png'
         try:
             os.remove(file)
         except OSError as e:
             logger.info(e)
-        os.system('adb shell input keyevent 26')  # power
+        os.system('adb -s 022GPLDU39019379 shell input keyevent 26')  # power
         time.sleep(2)
-        os.system('adb shell input keyevent 3')  # home
+        os.system('adb -s 022GPLDU39019379 shell input keyevent 3')  # home
         time.sleep(1)
-        os.system('adb shell input keyevent 3')  # home
+        os.system('adb -s 022GPLDU39019379 shell input keyevent 3')  # home
         time.sleep(2)
         logger.debug('DD-start')
-        os.system('adb shell monkey -p com.alibaba.android.rimet 1')  # start
+        os.system('adb -s 022GPLDU39019379 shell monkey -p com.alibaba.android.rimet 1')  # start
         sleeptime = random.randint(25, 40)
         time.sleep(sleeptime)
         logger.debug('screenshot')
-        os.system('adb shell /system/bin/screencap -p /sdcard/screenshot.png')
+        os.system('adb -s 022GPLDU39019379 shell /system/bin/screencap -p /sdcard/screenshot.png')
         time.sleep(5)
         os.system('adb pull /sdcard/screenshot.png F:/screenshot')
         time.sleep(5)
-        os.system('adb shell am force-stop com.alibaba.android.rimet')
-        os.system('adb shell input keyevent 26')
+        os.system('adb -s 022GPLDU39019379 shell am force-stop com.alibaba.android.rimet')
+        os.system('adb -s 022GPLDU39019379 shell input keyevent 26')
         return file
 
     @pytest.fixture()
@@ -114,7 +114,7 @@ class TestDd:
     @pytest.fixture()
     def subject(self, message):
         subject = ''
-        pattern = re.compile(r'\d{2}:\d{2}极速打卡成功')
+        pattern = re.compile(r'\d{2}:\d{2}极速打卡')
         it = pattern.findall(message)
 
         pattern_on = re.compile(r'\d{2}:\d{2}.班打卡')
@@ -127,7 +127,7 @@ class TestDd:
         return subject
 
     @allure.story('检查并发邮件')
-    @pytest.mark.flaky(reruns=3, reruns_delay=20)
+    @pytest.mark.flaky(reruns=2, reruns_delay=31)
     def test_todo(self, file, subject, message):
         if subject == '':
             subject = 'fail'
