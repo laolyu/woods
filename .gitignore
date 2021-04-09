@@ -6,6 +6,10 @@ Desktop.ini
 # Python:
 *.idea
 *.xml
+*.jpg
+*.png
+*cache
+*log
 
 *.py[cod]
 *.so

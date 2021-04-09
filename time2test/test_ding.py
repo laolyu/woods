@@ -1,17 +1,17 @@
 # -*- coding:utf-8 -*-
 import datetime
 import os
+import random
 import re
 import time
+
 import allure
 import pytest
+import urllib3
 import yagmail
-from interval import Interval
+from loguru import logger
 
 from bdocr import domain
-import urllib3
-import random
-from loguru import logger
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -78,7 +78,7 @@ def test_reboot():
 class TestDd:
     @pytest.fixture()
     def file(self):
-        logger.info('222222222')
+        logger.info('case0222222')
         sleeptime = random.randint(0, 200)
         time.sleep(sleeptime)
         file = r'F:\screenshot\screenshot.png'

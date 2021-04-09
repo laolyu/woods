@@ -1,5 +1,4 @@
 # -*- coding:utf-8 -*-
-import os
 
 from aip import AipOcr
 
@@ -39,11 +38,12 @@ def domain(file):
             # words_result += string['words'] + '\n'  # 换行
     except Exception as e:
         words_result = e
-    # print(words_result)
+    print(words_result)
     write_to_file(words_result)
     return words_result
 
 
 if __name__ == '__main__':
-    file = r'F:\screenshot\b2.png'
+    # file = r'F:\screenshot\demo.png'
+    file = r'F:\screenshot\screenshot.png'
     domain(file)
